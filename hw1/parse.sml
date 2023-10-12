@@ -50,7 +50,7 @@ end = struct
   fun parse toks =
     (case next toks
       of SOME(ast, []) => ast
-      | SOME(ast, _ ) => raise Fail "Did not finish parsing toks"
+      | SOME(ast, _ ) => raise Fail "Invalid toks"
       | NONE => raise Fail "No ast term")
 
 
