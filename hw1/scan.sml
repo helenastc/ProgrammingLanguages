@@ -23,7 +23,8 @@ end = struct
     | next (#"|" :: #"|" :: cs) = SOME(Token.DoublePipe, cs)
     | next (#"?" :: cs) = SOME(Token.QuestionMark, cs)
     | next (#":" :: cs) = SOME(Token.Colon, cs)
-    | next _ = raise Fail "Invalid token"
+    | next (c :: cs) = if Char.isSpace c then next cs
+                          else raise Fail "Invalid token"
 
   fun scan code = 
     let
