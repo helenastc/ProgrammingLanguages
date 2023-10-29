@@ -10,16 +10,23 @@ structure VarSet :> sig
 
 end = struct
 
-  type set = int (* <== Change this to something else! *)
+  type set = string list (* <== Change this to something else! *)
 
-  val empty = 0  (* <== Change this to something consistent with the new set type. *)
+  val empty = []  (* <== Change this to something consistent with the new set type. *)
 
-  fun mem _ = raise Fail "todo: VarSet.mem"
+  fun mem (_, []) = false
+    | mem (str, (x::xs)) = if str = x then true
+                            else mem (str, xs)
 
-  fun ins _ = raise Fail "todo: VarSet.ins"
+  fun ins (str, ls) = str :: ls
 
-  fun rem _ = raise Fail "todo: VarSet.rem"
-
-  fun union _ = raise Fail "todo: VarSet.union"
+  fun rem (_, []) = []
+    | rem (str, (x::xs)) = if str = x then xs
+                          else x :: rem (str, xs)
+  
+  fun union ([], ls) = ls
+    | union (ls, []) = ls
+    | union ((x::xs), ls) = if mem (x,ls) then union(xs, ls)
+                            else union(xs, ins(x, ls))
 				      
 end

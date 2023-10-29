@@ -4,7 +4,7 @@ structure Scan = struct
 
   fun skipComment [] = []
     | skipComment (#"\n" :: cs) = cs
-    | skipComment cs = cs
+    | skipComment (_::cs) = skipComment cs
 
   fun collect test [] = ([], [])
     | collect test (chars as c::cs) =
