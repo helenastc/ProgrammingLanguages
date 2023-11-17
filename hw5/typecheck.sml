@@ -17,17 +17,6 @@ end = struct
   structure T = Type
   structure E = TypeEnv
 
-  (* check if every element in the first list exists in the second *)  
-  fun recPerm ([], _) = true
-    | recPerm ((s,t)::rest,ls) = if (List.exists (fn (str, typ) => (s = str andalso typ = t)) ls) then recPerm (rest,ls)
-                                else false
-  
-  fun recWidth ([],[]) = true
-    | recWidth ([], _) = false
-    | recWidth (_, []) = true
-    | recWidth ((s1,t1)::rest1, (s2,t2)::rest2) = if (s1 = s2 andalso t1 = t2) then recWidth (rest1,rest2)
-                                else false
-
   fun subty (T.Int, T.Int) = true
     | subty (T.Bool, T.Bool) = true
     | subty (T.Unit, T.Unit) = true
@@ -41,18 +30,6 @@ end = struct
           if length ls1 < length ls2 then false
           else checkAll (ls1, ls2)
         end
-    (*
-    | subty (T.Record ls1, T.Record ls2) = 
-        let
-          fun recDepth ([],[]) = true
-            | recDepth ((s1,t1)::rest1, (s2,t2)::rest2) = if (s1 = s2 andalso subty(t1,t2)) then recDepth (rest1,rest2)
-                                                          else false
-        in
-          if length ls1 < length ls2 then false
-          else if (length ls1 = length ls2) then (recDepth(ls1,ls2) orelse recPerm(ls1,ls2))
-          else recWidth (ls1, ls2) 
-        end
-    *)
     | subty (T.Function (in1, out1), T.Function (in2, out2)) = subty(in2, in1) andalso subty(out1,out2)
     | subty _ = false
 

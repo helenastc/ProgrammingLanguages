@@ -19,6 +19,7 @@ structure Test = struct
       val _ = chkT "(~a I ~b B)" "(~a I)"
       val _ = chkF "(~a I)" "(~a I ~b B)"
       val _ = chkT "(~a I ~b I)" "(~b I)"
+      val _ = chkT "(~x (~a I ~b I) ~y (~m I))" "(~x (~a I))"
     in
       println "subty tests done"
     end
